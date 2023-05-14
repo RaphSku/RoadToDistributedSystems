@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package main;
+
+option go_package = "../itemstore";
+
+enum StorageCenter {
+    K = 0;
+    FRA = 1;
+    HH = 2;
+}
+
+service ItemStoreService {
+    rpc CheckStorageAvailability(ItemStoreAvailabilityRequest) returns (ItemStoreAvailabilityResponse);
+    rpc DeliverItemToStorage(ItemStoreRequest) returns (ItemStoreResponse);
+}
+
+message ItemStoreRequest {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+    StorageCenter storage_center = 4;
+    int32 storage_layer = 5;
+    int32 storage_block = 6;
+}
+
+message ItemStoreResponse {
+    int32 id = 1;
+    bool status_success = 2;
+    string reason = 3;
+}
+
+message ItemStoreAvailabilityRequest {
+    StorageCenter storage_center = 1;
+    int32 storage_layer = 2;
+    int32 storage_block = 3;
+}
+
+message ItemStoreAvailabilityResponse {
+    bool status_success = 1;
+    string reason = 2;
+}
