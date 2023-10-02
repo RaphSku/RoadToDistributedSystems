@@ -1,15 +1,18 @@
-.PHONY: default preflight start_psql_db help
+.PHONY: default preflight install_dependencies start help
 
 default: help
 
 preflight:
-	@which docker | test -n
-	@docker --version
-	@docker compose version
+	@which go
+	@go version
 
-## Start docker container with Postgres
-start_psql_db: preflight
-	@docker compose -f postgres-compose.yaml up
+## Install Go dependencies
+install_dependencies:
+	@go mod download
+
+## Run code
+start: preflight
+	@go run main.go
 
 ## Print this help screen
 help:
