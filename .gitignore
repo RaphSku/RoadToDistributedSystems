@@ -1,2 +1,3 @@
-# pem files
+# Certificate related
 *.pem
+*.csr
