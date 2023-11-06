@@ -1,0 +1,96 @@
+basePath: /
+consumes:
+    - application/json
+info:
+    description: Documentation for the SignUp/Login API
+    title: for the User Signup/Login API
+    version: 1.0.0
+paths:
+    /info:
+        get:
+            description: Returns the username when a valid JWT is being provided
+            operationId: info
+            responses:
+                "200":
+                    $ref: '#/responses/successMessageOnInfo'
+                "400":
+                    $ref: '#/responses/badRequest'
+                "401":
+                    $ref: '#/responses/unauthorizedError'
+            tags:
+                - account
+    /login:
+        post:
+            description: Returns a message with StatusOK and valid JWT if successful
+            operationId: login
+            responses:
+                "200":
+                    $ref: '#/responses/successMessageWithJWT'
+                "400":
+                    $ref: '#/responses/badRequest'
+                "401":
+                    $ref: '#/responses/unauthorizedError'
+            tags:
+                - account
+    /signup:
+        post:
+            description: Returns a message with StatusOK if successful
+            operationId: signup
+            responses:
+                "200":
+                    $ref: '#/responses/successMessage'
+                "400":
+                    $ref: '#/responses/badRequest'
+                "500":
+                    $ref: '#/responses/internalServerError'
+            tags:
+                - account
+produces:
+    - application/json
+responses:
+    badRequest:
+        description: BadRequest represents an error where the server does not know what to do with the incoming request
+        schema:
+            type: object
+    internalServerError:
+        description: A message that is returned to the user when the server has an internal error
+        schema:
+            properties:
+                message:
+                    type: string
+                    x-go-name: Message
+            type: object
+    successMessage:
+        description: A message that is returned to the user if a request was being processed successfully
+        schema:
+            properties:
+                message:
+                    description: The congratulations message
+                    type: string
+                    x-go-name: Message
+            type: object
+    successMessageOnInfo:
+        description: A message that is returned to the user if a valid JWT is provided, the username will be returned
+        schema:
+            properties:
+                user:
+                    description: JWT
+                    type: string
+                    x-go-name: User
+            type: object
+    successMessageWithJWT:
+        description: A message that is returned to the user if the login was successful, a JWT will be returned
+        schema:
+            properties:
+                token:
+                    description: JWT
+                    type: string
+                    x-go-name: Token
+            type: object
+    unauthorizedError:
+        description: A message that is returned to the user when the server has an authorization error
+        schema:
+            type: object
+schemes:
+    - http
+swagger: "2.0"
