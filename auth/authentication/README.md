@@ -24,6 +24,9 @@ make start
 ```
 The server will run on localhost on port 9090.
 
+## Documentation
+A simple API documentation is provided via Swagger on the endpoint `http://localhost:9090/docs`.
+
 ## Output
 In order to sign up a user, you can use the following curl command:
 ```bash
