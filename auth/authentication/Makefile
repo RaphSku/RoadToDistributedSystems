@@ -2,15 +2,19 @@
 
 default: help
 
+## Install dependencies like Swagger
 install_dependencies:
 	@which swagger || go get -u github.com/go-swagger/go-swagger/cmd/swagger
 
-generate_private_key:
+## Generate a private and public key
+generate_private_public_key:
 	@go run ./utilities/pk.go
 
+## Generate a new swagger spec
 swagger:
 	@swagger generate spec -o ./swagger.yml --scan-models
 
+## Start server
 start_server:
 	@go run main.go
 

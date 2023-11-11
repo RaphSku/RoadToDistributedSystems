@@ -15,7 +15,7 @@ make install_dependencies
 
 Before you start the server, be sure to create a pair of keys for the JWT encryption. You can do this with the following make target:
 ```bash
-make generate_private_key
+make generate_private_public_key
 ```
 
 Then run the server with
