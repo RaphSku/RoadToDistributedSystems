@@ -1,3 +1,6 @@
 # Certificate related
 *.pem
 *.csr
+
+# synmake related
+config.yaml
