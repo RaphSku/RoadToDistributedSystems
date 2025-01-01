@@ -4,3 +4,9 @@
 
 # synmake related
 config.yaml
+
+# Python related
+.venv
+
+# Project related
+*.log

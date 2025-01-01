@@ -1,0 +1,9 @@
+[project]
+name = "benchmark"
+version = "0.1.0"
+description = "Create diagram for Go benchmark"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.2.3",
+    "plotly>=5.24.1",
+]
