@@ -45,15 +45,10 @@ preflight:
 	$(call check_tool_version,docker compose,docker compose version,2.34.0)
 
 .PHONY: start_psql_db
-<<<<<<< HEAD
 ## Start Postgres container
-=======
-## Start docker container with Postgres
->>>>>>> main
 start_psql_db: preflight
 	docker compose -f postgres-compose.yaml up -d
 
-<<<<<<< HEAD
 .PHONY: take_down_psql_db
 ## Removes Postgres container
 take_down_psql_db: preflight
@@ -65,8 +60,6 @@ access_database: preflight
 	echo $(POSTGRES_USER)
 	docker compose -f postgres-compose.yaml exec -it postgres-auth psql -U $(POSTGRES_USER)
 
-=======
->>>>>>> main
 .PHONY: help
 ## Print this help screen
 help:
