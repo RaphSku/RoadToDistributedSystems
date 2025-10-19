@@ -16,7 +16,8 @@ import (
 func checkIfUserIsRegistered(h *Handler, conn *pgx.Conn, userBody *UserSignUpBody) bool {
 	var userInDB UserLogin
 	row := conn.QueryRow("select username from login where username=$1;", userBody.Username)
-	if row.Scan(&userInDB) != pgx.ErrNoRows {
+	err := row.Scan(&userInDB)
+	if err != nil {
 		h.logger.Error("Username is already registered...")
 		return true
 	}
@@ -28,7 +29,8 @@ func checkIfUserIsRegistered(h *Handler, conn *pgx.Conn, userBody *UserSignUpBod
 func checkIfEmailIsRegistered(h *Handler, conn *pgx.Conn, userBody *UserSignUpBody) bool {
 	var email string
 	row := conn.QueryRow("select email from login where email=$1", userBody.Email)
-	if row.Scan(&email) != pgx.ErrNoRows {
+	err := row.Scan(&email)
+	if err != nil {
 		h.logger.Error("Email is already registered...")
 		return true
 	}

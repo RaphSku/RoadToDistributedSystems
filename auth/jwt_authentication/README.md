@@ -31,25 +31,20 @@ ECDSASHA256(
     base64UrlEncode(header) + "." + base64UrlEncode(payload), public key in SPKI or JWK string format, private key in PKCS or JWK string format
 )
 ```
-Since we are using ECDSA as a signing method, we have to provide a private key and public key. The private key is used for signing and the public key for verification. If you use other signing methods like HS256, you will only need to provide a secret string. 
+Since we are using ECDSA as the signing method, we need to provide both a private key and a public key. The private key is used to sign the token, while the public key is used to verify it. If you use other signing methods, such as HS256, you only need to provide a shared secret string.
 
-Typically, a JWT serves as a means of authentication. For instance, when a client logs into an application, it obtains a JWT. Subsequently, the client can include this token in its requests to confirm its identity. This enables the server to identify the client. Furthermore, due to the ability to include custom data in the payload, we can use JWTs to convey additional information to the server. For instance, this information may include details about the client's role, whether it is linked to a user, and the properties of the account.
+Typically, a JWT is used as a means of authentication. For example, when a client logs into an application, it receives a JWT. The client can then include this token in subsequent requests to prove its identity, allowing the server to recognize and authenticate the client. Additionally, because the JWT payload can include custom data, it can also be used to transmit extra information to the server—such as the client’s role, whether the token is associated with a user, and account-related properties.
 
 ## How to use this code
 ### Requirements
-- You need Go version >=1.20.x
+- You need Go version >=1.24.4
 - Install make
 
 ### Usage
-First of all, to fetch the module dependencies run 
-```bash
-make install_dependencies
-```
-
-Then to run the code, just run
+Run the code with the following command:
 ```bash
 make start
 ```
 
 ### Output
-After running the code, you should see an output where your signed token is display and also the claims are parsed and logged. I invite you to play around with the code, create additional attributes in your claims and also try other signing methods, e.g. HS256.
+After running the code, you should see the signed token output along with the parsed and logged claims. Feel free to experiment with the code—try adding custom attributes to your claims and explore other signing methods, such as HS256.
