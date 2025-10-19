@@ -57,6 +57,7 @@ gencert: preflight
 
 	mv *.pem *.csr certs/
 
+<<<<<<< HEAD
 .PHONY: start_server
 ## Start server
 start_server: gencert
@@ -64,6 +65,8 @@ start_server: gencert
 	@go run main.go
 	@echo "Server finished..."
 
+=======
+>>>>>>> main
 .PHONY: help
 ## Print this help screen
 help:
