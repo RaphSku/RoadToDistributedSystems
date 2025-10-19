@@ -1,20 +1,11 @@
+# --- TARGETS
 .PHONY: default
 default: help
 
-.PHONY: preflight
-preflight:
-	@which go | test -n
-	@go version
-
-.PHONY: install_dependencies
-## Install Go dependencies
-install_dependencies:
-	@go mod download
-
 .PHONY: start
 ## Run code
-start: preflight
-	@go run main.go
+start_server:
+	go run main.go
 
 .PHONY: help
 ## Print this help screen

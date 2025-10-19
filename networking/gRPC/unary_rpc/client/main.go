@@ -7,6 +7,7 @@ import (
 	"github.com/RaphSku/RoadToDistributedSystems/tree/main/networking/gRPC/unary_rpc/client/itemstore"
 	hclog "github.com/hashicorp/go-hclog"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 type ItemStore struct {
@@ -21,7 +22,7 @@ func NewItemStore(logger hclog.Logger, ics itemstore.ItemStoreServiceClient) *It
 func main() {
 	logger := hclog.Default()
 
-	conn, err := grpc.Dial("localhost:9099", grpc.WithInsecure())
+	conn, err := grpc.NewClient("localhost:9099", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		logger.Error("Cannot reach gRPC server...due to:", err)
 		os.Exit(1)

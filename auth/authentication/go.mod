@@ -1,6 +1,6 @@
 module github.com/RaphSku/RoadToDistributedSystems/tree/main/auth/authentication
 
-go 1.20
+go 1.24.4
 
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible

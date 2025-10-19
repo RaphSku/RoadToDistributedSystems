@@ -1,26 +1,31 @@
 # How to use this code
 ## Requirements
-- You need Go version >= 1.20.x
+- You need Go version >= 1.24.x
 - Install make
 
 ## Usage
-Fetch the module dependencies with:
-```bash
-go mod download
-```
-If you want to update the documentation, you will need to install swagger, do it with:
+This example application uses swagger for dynamic documentation generation, so you need to install it with:
 ```bash
 make install_dependencies
 ```
 
-Before you start the server, be sure to create a pair of keys for the JWT encryption. You can do this with the following make target:
+To see all the available make targets, run:
 ```bash
-make generate_private_public_key
+make
+```
+
+Before starting the server, create an `.env` file in this directory and fill out the following details:
+```
+DB_HOST=127.0.0.1
+DB_PORT=<port_of_your_choice>
+DB_NAME=auth
+DB_USER=<your_user>
+DB_PW=<your_password>
 ```
 
 Then run the server with
 ```bash
-make start
+make start_server
 ```
 The server will run on localhost on port 9090.
 
@@ -30,7 +35,7 @@ A simple API documentation is provided via Swagger on the endpoint `http://local
 ## Output
 In order to sign up a user, you can use the following curl command:
 ```bash
-curl --location 'localhost:9090/signup' \
+curl --location 'localhost:<port_of_your_choice>/signup' \
      --header 'Content-Type: application/json' \
      --data-raw '{
        "username": "raphael",
@@ -42,7 +47,7 @@ The API server will check whether the user already exists and if the email is al
 
 Now, we are able to login with the following curl command:
 ```bash
-curl --location 'localhost:9090/login' \
+curl --location 'localhost:<port_of_your_choice>/login' \
      --header 'Content-Type: application/json' \
      --data '{
        "username": "raphael",
@@ -57,7 +62,7 @@ What we obtain is a JWT, in this case it looks like this:
 ```
 With the help of this token, we can make an API call to the `/info` endpoint. Use the following curl command:
 ```bash
-curl --location 'localhost:9090/info' \
+curl --location 'localhost:<port_of_your_choice>/info' \
      --header 'Token: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTkzOTE5ODMsIm5hbWUiOiJyYXBoYWVsIn0.nS8I2wz2Id2D7g2K5IkGsBDNBS0I-Nzor0QzRg-LR7EcEVKTROeHjTvUVZElLfezF3PS0NqVLAxOxfboLcSm_g'
 ```
 You will receive the following response:

@@ -5,7 +5,7 @@ import (
 	"net"
 	"os"
 
-	"github.com/RaphSku/RoadToDistributedSystems/tree/main/networking/gRPC/unary_rpc/server/itemstore"
+	"github.com/RaphSku/RoadToDistributedSystems/tree/main/networking/gRPC/server_streaming_rpc/server/itemstore"
 	hclog "github.com/hashicorp/go-hclog"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -125,16 +125,6 @@ func (itemStore *ItemStore) ListStorageLayoutOfCenter(req *itemstore.StorageCent
 				storageLayerId := int32(i)
 				storageBlockId := int32(j)
 				storageAvailability := int32(val)
-				if val < 1 {
-					stream.Send(
-						&itemstore.ItemStoreAvailabilityResponse{
-							Availability: storageAvailability,
-							StorageLayer: storageLayerId,
-							StorageBlock: storageBlockId,
-						},
-					)
-					continue
-				}
 				stream.Send(
 					&itemstore.ItemStoreAvailabilityResponse{
 						Availability: storageAvailability,

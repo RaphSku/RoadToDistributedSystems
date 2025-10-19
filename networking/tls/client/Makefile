@@ -1,19 +1,62 @@
+# --- HELPERS
+define check_tool_version
+@if ! command -v $(1) >/dev/null 2>&1; then \
+	echo "$(1) is not installed."; \
+	echo "Minimum version required: $(3)"; \
+	exit 1; \
+fi; \
+tool_version=$$($(2) | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n1); \
+if [ -z $$tool_version ]; then \
+	echo "Could not determine version of $(1). Output of '$(2)' did not contain a version."; \
+	exit 1; \
+fi; \
+min_version=$(3); \
+max_version=$(4); \
+if [ "$$(printf '%s\n' $$min_version $$tool_version | sort -V | head -n1)" != "$$min_version" ]; then \
+	echo "$(1) version $$tool_version is too old. Please update to at least $$min_version."; \
+	exit 1; \
+elif [ -n "$$max_version" ] && \
+     { [ "$$tool_version" = "$$max_version" ] || \
+       [ "$$(printf '%s\n' $$tool_version $$max_version | sort -V | tail -n1)" != "$$max_version" ]; }; then \
+	echo "$(1) version $$tool_version is too new. Please use a version lower than $$max_version."; \
+	exit 1; \
+else \
+	if [ -n "$$max_version" ]; then \
+		echo "$(1) version $$tool_version is OK (between $$min_version and < $$max_version)."; \
+	else \
+		echo "$(1) version $$tool_version is OK (>= $$min_version, < $$max_version)."; \
+	fi; \
+fi
+endef
+
+# --- VARIABLES
+MIN_GO_VERSION=1.24.4
+MAX_GO_VERSION=1.25.0
+
+# --- TARGETS
 default: help
 
-.PHONY: test_curl
-## Test TLS via curl
-test_curl:
-	curl --cacert ca.pem -X GET https://localhost:9090
+.PHONY: preflight
+preflight:
+	$(call check_tool_version,go,go version,$(MIN_GO_VERSION),$(MAX_GO_VERSION))
+	which go
 
 .PHONY: fetch_ca_certificate
-## Copy the necessary certificates over from the certs folder
+## Copy the CA certificate
 fetch_ca_certificate:
 	@cp ../server/certs/ca.pem ./certs/ca.pem
 
+.PHONY: test_curl
+## Test TLS via curl
+test_curl: fetch_ca_certificate
+	curl --cacert certs/ca.pem -X GET https://localhost:9090
+
 .PHONY: run_client
 ## Run client
-run_client:
+run_client: preflight fetch_ca_certificate
+	@echo "Starting Client..."
 	@go run main.go
+	@echo "Client finished..."
 
 .PHONY: help
 ## Print this help screen

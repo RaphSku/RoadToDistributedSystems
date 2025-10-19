@@ -13,6 +13,7 @@ enum StorageCenter {
 service ItemStoreService {
     rpc CheckStorageAvailability(ItemStoreAvailabilityRequest) returns (ItemStoreAvailabilityResponse);
     rpc DeliverItemToStorage(ItemStoreRequest) returns (ItemStoreResponse);
+    rpc ListStorageLayoutOfCenter(StorageCenterLayoutRequest) returns (stream ItemStoreAvailabilityResponse);
 }
 
 message ItemStoreRequest {
@@ -38,4 +39,8 @@ message ItemStoreAvailabilityResponse {
     int32 availability = 1;
     int32 storage_layer = 2;
     int32 storage_block = 3;
+}
+
+message StorageCenterLayoutRequest {
+    StorageCenter storage_center = 1;
 }
